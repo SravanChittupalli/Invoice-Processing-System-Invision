@@ -173,17 +173,6 @@ def get_invoice_number(extracted_text):
     print(receipt_ocr)
 
 
-def copyStateDict(state_dict):
-    if list(state_dict.keys())[0].startswith("module"):
-        start_idx = 1
-    else:
-        start_idx = 0
-    new_state_dict = OrderedDict()
-    for k, v in state_dict.items():
-        name = ".".join(k.split(".")[start_idx:])
-        new_state_dict[name] = v
-    return new_state_dict
-
 def str2bool(v):
     return v.lower() in ("yes", "y", "true", "t", "1")
 
@@ -258,24 +247,8 @@ def test_net(net, image, text_threshold, link_threshold, low_text, cuda, poly, r
 
     return boxes, polys, ret_score_text
 
-def get_observations(image):
-    # load net
-    net = CRAFT()     # initialize
+def get_observations(image, net):
     refine_net = None
-
-    print('Loading weights from checkpoint (' + args.trained_model + ')')
-    if args.cuda:
-        net.load_state_dict(copyStateDict(torch.load(args.trained_model)))
-    else:
-        net.load_state_dict(copyStateDict(torch.load(args.trained_model, map_location='cpu')))
-
-    if args.cuda:
-        net = net.cuda()
-        net = torch.nn.DataParallel(net)
-        cudnn.benchmark = False
-
-    net.eval()
-
     t = time.time()
 
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
