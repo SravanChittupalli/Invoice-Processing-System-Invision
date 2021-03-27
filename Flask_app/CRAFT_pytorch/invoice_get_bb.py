@@ -39,21 +39,21 @@ def get_date(extracted_text):
     for match in matches:
         date = extracted_text[match.span()[0]:match.span()[1]]
     receipt_ocr['date'] = date
-    print(receipt_ocr)
+    # print(receipt_ocr)
 
 def get_time(extracted_text):
 # regex for time. The pattern in the receipt is in 8:47:20 
-    time_pattern = r'([0-9]|0[0-9]|[1][0-9]|2[0-4])[:]([0-5][0-9])[:]([0-5][0-9])*'
+    time_pattern = r'([0-9]|0[0-9]|[1][0-9]|2[0-4])*[:]*([0-5][0-9])[:]([0-5][0-9])*'
     pattern = re.compile(time_pattern)
     matches = pattern.finditer(extracted_text)
     time = None
     for match in matches:
         time = extracted_text[match.span()[0]:match.span()[1]]
     receipt_ocr['time'] = time
-    print(receipt_ocr)
+    # print(receipt_ocr)
 
 def get_total(extracted_text):
-    total_pattern = r'[tTiI][oOaA][tTlLiL][oOaA0cC]'
+    total_pattern = r'([tTiI][oOaA][tTlLiL][oOaA0cC]|([NnMm][Ee][TtLliI]))'
     # total_pattern = r'Total'
     splits = extracted_text.split('\n')
     lines_with_total = []
@@ -72,7 +72,7 @@ def get_total(extracted_text):
         receipt_ocr['total'] = str(max(amount))
     except:
         receipt_ocr['total'] = None
-    print(receipt_ocr)
+    # print(receipt_ocr)
 
 def get_company_name(extracted_text):
     splits = extracted_text.splitlines()
@@ -94,10 +94,10 @@ def get_company_name(extracted_text):
         receipt_ocr['Comapny Name'] = restaurant_name
     except:
         receipt_ocr['Comapny Name'] = None
-    print(receipt_ocr)
+    # print(receipt_ocr)
 
 def get_GST_number(extracted_text):
-    pattern = r'(GST)'
+    pattern = r'(GST|3ST)'
     splits = extracted_text.split('\n')
     lines_with_GST = []
     for line in splits:
@@ -105,7 +105,7 @@ def get_GST_number(extracted_text):
             lines_with_GST.append(line)
 
     gst_num = ''
-    gst_num_pattern = r'[0-9]{3,15}\s*[0-9]*\s*[0-9]*'
+    gst_num_pattern = r'[0-9]{2,15}\s*[a-zA-Z]*[0-9]*[a-zA-Z]*[0-9]*\s*[0-9]*'
     pattern = re.compile(gst_num_pattern)
     for line in lines_with_GST:
         matches = pattern.finditer(line)
@@ -115,7 +115,7 @@ def get_GST_number(extracted_text):
                 gst_num = gst_num_curr
 
     receipt_ocr['GST Number'] = gst_num
-    print(receipt_ocr)
+    # print(receipt_ocr)
 
 def get_email(extracted_text):
     pattern = (r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+')
@@ -125,7 +125,7 @@ def get_email(extracted_text):
     for match in matches:
         email = extracted_text[match.span()[0]:match.span()[1]]
     receipt_ocr['email'] = email
-    print(receipt_ocr)
+    # print(receipt_ocr)
 
 
 def get_phone_number(extracted_text):
@@ -146,7 +146,7 @@ def get_phone_number(extracted_text):
             phone_num.append(line[match.span()[0]:match.span()[1]])
 
     receipt_ocr['Phone Number'] = phone_num
-    print(receipt_ocr)
+    # print(receipt_ocr)
 
 def get_invoice_number(extracted_text):
     pattern = (r'(invoice|bill|inv|inc|doc|document|order|ord|receipt|billing|token|trn|transaction|trx|tally|statement)')
@@ -170,7 +170,7 @@ def get_invoice_number(extracted_text):
             final_invoice = invoice
 
     receipt_ocr['Invoice Number'] = final_invoice
-    print(receipt_ocr)
+    # print(receipt_ocr)
 
 
 def str2bool(v):
@@ -248,13 +248,15 @@ def test_net(net, image, text_threshold, link_threshold, low_text, cuda, poly, r
     return boxes, polys, ret_score_text
 
 def get_observations(image, net):
+    global receipt_ocr
+    receipt_ocr = {}
     refine_net = None
     t = time.time()
 
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
+    #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    print("reached stage 0")
     bboxes, polys, score_text = test_net(net, image, args.text_threshold, args.link_threshold, args.low_text, args.cuda, args.poly, refine_net)
-
+    print("reached stage 1")
     # print(bboxes, polys)
     print(image.shape)
     ###############################
@@ -285,6 +287,7 @@ def get_observations(image, net):
             min_line = 100000
             max_line = 0
     print(len(lines))
+    print("reached stage 2")
 
     text_in_img = ''
     image_line = image.copy()
@@ -298,6 +301,7 @@ def get_observations(image, net):
         for extract in extracted_text.split('\n'):
             line = line+extract+' '
         text_in_img = text_in_img+line+'\n'
+    print("reached stage 3")
         # cv2.imshow('line_img', img)
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
@@ -312,9 +316,10 @@ def get_observations(image, net):
     get_email(text_in_img)
     get_phone_number(text_in_img)
     get_invoice_number(text_in_img)
-    cv2.imshow('line_img', image_line)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    print("reached stage 4")
+    # cv2.imshow('line_img', image_line)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
         
     ################################
