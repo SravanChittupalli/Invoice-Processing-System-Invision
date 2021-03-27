@@ -129,7 +129,7 @@ Use this space to show useful examples of how a project can be used. Additional 
 ## Contributors
 [Sravan Chittupalli](https://github.com/SravanChittupalli)  
 [Shantanu Pande](https://github.com/shan515)  
-[Twisha Shah](https://github.com/high-functioning-sociopath)
+[Twisha Shah](https://github.com/high-functioning-sociopath)  
 [Prithvi Shirke](https://github.com/prithvi1809)
 
 
@@ -143,17 +143,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
+* 
 
 
 
