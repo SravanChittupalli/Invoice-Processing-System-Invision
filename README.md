@@ -15,17 +15,17 @@
 <br />
 <p align="center">
   <a href="https://github.com/SravanChittupalli/Invoice-Processing-System">
-    <img src="assets/invision_logo.jpeg" alt="Logo" width="80" height="80">
+    <img src="assets/invision_logo.jpeg" alt="Logo" width="100" height="100">
   </a>
 
-  <h3 align="center">InvoiceXvision:Invision</h3>
+  <h3 align="center">InvoiceXvision: Invision</h3>
 
   <p align="center">
     An Invoice processing app to extract useful information from your invoice
     <br />
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://youtu.be/iqgeiS2IIQU">View Demo</a>
     ·
     <a href="https://github.com/SravanChittupalli/Invoice-Processing-System">Report Bug</a>
   </p>
@@ -43,14 +43,7 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
+    <li><a href="#screenshots">Screenshots</a></li>
     <li><a href="#contributors">Contributors</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#acknowledgements">Acknowledgements</a></li>
@@ -62,7 +55,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<p align="center">
+  <img src="assets/flow.PNG" width="750" title="flowchart">
+</p>
 
 One major problem in the finance world is that invoice formats are not standard and structured. Extracting useful information from these documents is easy for humans but not for machines.
 
@@ -78,68 +73,45 @@ Tasks performed :
 * [Tesseract](https://github.com/tesseract-ocr/tesseract)
 * [OpenCv](https://docs.opencv.org/master/d6/d00/tutorial_py_root.html)
 * [Flask](https://pypi.org/project/Flask/)
-
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
+* [ngrok](https://ngrok.com/)
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Screenshots
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### App Screenshots
 
+<p align="center">
+  <img src="assets/front.PNG" width="250" height="500" title="front screen">
+  <img src="assets/upload.PNG" width="250" height="500" alt="upload screen">
+</p>
 
+<p align="center">
+ <img src="assets/crop.PNG" width="250" height="500" alt="cropping screen">
+  <img src="assets/output.PNG" width="250" height="500" alt="output screen">
+</p>
+
+### DL Screenshots
+<p align="center">
+ <img src="assets/original.PNG" width="300" height="500" title="original invoice">
+  <img src="assets/CRAFT.PNG" width="300" height="500" alt="CRAFT output">
+ <img src="assets/out.PNG" width="400" height="150" alt="output">
+</p>
 
 
 <!-- CONTRIBUTORS -->
 ## Contributors
-[Sravan Chittupalli](https://github.com/SravanChittupalli)  
-[Shantanu Pande](https://github.com/shan515)  
-[Twisha Shah](https://github.com/high-functioning-sociopath)  
-[Prithvi Shirke](https://github.com/prithvi1809)
+:smile:
+[Sravan Chittupalli](https://github.com/SravanChittupalli):smiley:
+[Shantanu Pande](https://github.com/shan515) :innocent:
+[Twisha Shah](https://github.com/high-functioning-sociopath) :sunglasses:
+[Prithvi Shirke](https://github.com/prithvi1809) 
 
 
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-
-
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-* 
-
 
 
 
