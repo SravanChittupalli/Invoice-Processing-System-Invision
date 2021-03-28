@@ -35,7 +35,7 @@ def get_date(extracted_text):
     date_pattern = r'(0[1-9]|[12][0-9]|3[01]|0[1-9]|1[012])[-./](0[1-9]|[12][0-9]|3[01]|0[1-9]|1[012])[-./](20[012][0-9]|[0-3][0-9])'
     pattern = re.compile(date_pattern)
     matches = pattern.finditer(extracted_text)
-    date = None
+    date = ''
     for match in matches:
         date = extracted_text[match.span()[0]:match.span()[1]]
     receipt_ocr['date'] = date
@@ -46,7 +46,7 @@ def get_time(extracted_text):
     time_pattern = r'([0-9]|0[0-9]|[1][0-9]|2[0-4])*[:]*([0-5][0-9])[:]([0-5][0-9])*'
     pattern = re.compile(time_pattern)
     matches = pattern.finditer(extracted_text)
-    time = None
+    time = ''
     for match in matches:
         time = extracted_text[match.span()[0]:match.span()[1]]
     receipt_ocr['time'] = time
@@ -54,7 +54,6 @@ def get_time(extracted_text):
 
 def get_total(extracted_text):
     total_pattern = r'([tTiI][oOaA][tTlLiL][oOaA0cC]|([NnMm][Ee][TtLliI]))'
-    # total_pattern = r'Total'
     splits = extracted_text.split('\n')
     lines_with_total = []
     for line in splits:
@@ -77,9 +76,10 @@ def get_total(extracted_text):
 def get_company_name(extracted_text):
     splits = extracted_text.splitlines()
     i = 0
-    pattern = r'([0-9]+|[-./]+|\\)'
+    pattern = r'([0-9]+|[-./|]+|\\)'
 
     for split in splits:
+        # print(split)
         if split==' ':
             # print(split)
             i+=1
@@ -91,9 +91,9 @@ def get_company_name(extracted_text):
             break
     try:
         restaurant_name = splits[i] + '\n' + splits[i+2]
-        receipt_ocr['Comapny Name'] = restaurant_name
+        receipt_ocr['CompanyName'] = restaurant_name
     except:
-        receipt_ocr['Comapny Name'] = None
+        receipt_ocr['CompanyName'] = ''
     # print(receipt_ocr)
 
 def get_GST_number(extracted_text):
@@ -114,14 +114,14 @@ def get_GST_number(extracted_text):
             if len(gst_num_curr) > len(gst_num):
                 gst_num = gst_num_curr
 
-    receipt_ocr['GST Number'] = gst_num
+    receipt_ocr['GSTNumber'] = gst_num
     # print(receipt_ocr)
 
 def get_email(extracted_text):
     pattern = (r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+')
     pattern = re.compile(pattern)
     matches = pattern.finditer(extracted_text)
-    email = None
+    email = ''
     for match in matches:
         email = extracted_text[match.span()[0]:match.span()[1]]
     receipt_ocr['email'] = email
@@ -145,7 +145,7 @@ def get_phone_number(extracted_text):
         for match in matches:
             phone_num.append(line[match.span()[0]:match.span()[1]])
 
-    receipt_ocr['Phone Number'] = phone_num
+    receipt_ocr['PhoneNumber'] = phone_num
     # print(receipt_ocr)
 
 def get_invoice_number(extracted_text):
@@ -157,21 +157,35 @@ def get_invoice_number(extracted_text):
             lines_with_invoice_num.append(line)
 
     invoice_num = []
-    final_invoice = None
     invoice_num_pattern = r'[a-zA-Z]*[0-9]+[/:-]*[0-9]*[/:-]*[0-9]*'
     pattern = re.compile(invoice_num_pattern)
     for line in lines_with_invoice_num:
         matches = pattern.finditer(line)
         for match in matches:
             invoice_num.append(line[match.span()[0]:match.span()[1]])
+    print(invoice_num)
 
+    final_invoice = ''
     for invoice in invoice_num:
         if '/' not in invoice and ':' not in invoice and ' ' not in invoice:
-            final_invoice = invoice
+            final_invoice_curr = invoice
+            if len(final_invoice_curr) > len(final_invoice):
+                final_invoice = final_invoice_curr
+    if final_invoice == '':
+        final_invoice = None
 
-    receipt_ocr['Invoice Number'] = final_invoice
+    receipt_ocr['InvoiceNumber'] = final_invoice
     # print(receipt_ocr)
 
+def get_currency(extracted_text):
+    pattern = r'(RM|USD|EUR|JPY|GBP|AUD|CAD|CHF|CNY|SEK|NZD|INR|RS)'
+    pattern = re.compile(pattern)
+    matches = pattern.finditer(extracted_text)
+
+    currency = ''
+    for match in matches:
+        currency = extracted_text[match.span()[0]:match.span()[1]]
+    receipt_ocr['currency'] = currency
 
 def str2bool(v):
     return v.lower() in ("yes", "y", "true", "t", "1")
@@ -316,19 +330,12 @@ def get_observations(image, net):
     get_email(text_in_img)
     get_phone_number(text_in_img)
     get_invoice_number(text_in_img)
+    get_currency(text_in_img)
     print("reached stage 4")
     # cv2.imshow('line_img', image_line)
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
 
-        
-    ################################
-    # save score text
-    # filename, file_ext = os.path.splitext(os.path.basename(image_path))
-    # mask_file = result_folder + "/res_" + filename + '_mask.jpg'
-    # cv2.imwrite(mask_file, score_text)
-
-    # file_utils.saveResult(image_path, image[:,:,::-1], polys, dirname=result_folder)
 
     print("elapsed time : {}s".format(time.time() - t))
     return receipt_ocr

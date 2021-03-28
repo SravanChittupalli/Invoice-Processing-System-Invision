@@ -36,11 +36,12 @@ def get_obs():
                 "date": dict_ocr_obs["date"],
                 "time": dict_ocr_obs["time"],
                 "total": dict_ocr_obs["total"],
-                "ComapnyName": dict_ocr_obs["Comapny Name"],
-                "GSTNumber": dict_ocr_obs["GST Number"],
+                "CompanyName": dict_ocr_obs["CompanyName"],
+                "GSTNumber": dict_ocr_obs["GSTNumber"],
                 "email": dict_ocr_obs["email"],
-                "PhoneNumber": dict_ocr_obs["Phone Number"],
-                "InvoiceNumber": dict_ocr_obs["Invoice Number"]
+                "PhoneNumber": dict_ocr_obs["PhoneNumber"],
+                "InvoiceNumber": dict_ocr_obs["InvoiceNumber"],
+                "currency": dict_ocr_obs["currency"]
             }
     # Storing results in firebase
     print("[DEBUG] Storing results in firebase")
@@ -68,7 +69,7 @@ def copyStateDict(state_dict):
 
 
 if __name__ == '__main__':
-    firebase = firebase.FirebaseApplication('https://invoic-processing-system-default-rtdb.firebaseio.com/', None)  
+    firebase = firebase.FirebaseApplication('https://invoicexvision-invision-default-rtdb.firebaseio.com/', None)  
 
     trained_model = 'CRAFT_pytorch/weights/craft_mlt_25k.pth'
     
@@ -89,4 +90,4 @@ if __name__ == '__main__':
 
     net.eval()
 
-    app.run()
+    app.run(port = 8080)
