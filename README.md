@@ -79,7 +79,6 @@ Tasks performed :
 
 * [Flutter](https://api.flutter.dev/)
 * [Pytorch](https://pytorch.org/docs/stable/index.html)
-* [CRAFT](https://github.com/clovaai/CRAFT-pytorch)
 * [Tesseract](https://github.com/tesseract-ocr/tesseract)
 * [OpenCv](https://docs.opencv.org/master/d6/d00/tutorial_py_root.html)
 * [Flask](https://pypi.org/project/Flask/)
