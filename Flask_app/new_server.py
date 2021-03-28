@@ -48,12 +48,40 @@ def get_obs():
     firebase.post('/user1/',data)
     print("[DEBUG] Successfully uploaded results")
 
+    try:
+        dict_ocr_obs["PhoneNumber"] = dict_ocr_obs["PhoneNumber"][0]
+    except:
+        dict_ocr_obs["PhoneNumber"] = ""
+
     # Making the response message
     response = {
-        "output": data
+        "output": {
+                "date": dict_ocr_obs["date"],
+                "time": dict_ocr_obs["time"],
+                "total": dict_ocr_obs["total"],
+                "CompanyName": dict_ocr_obs["CompanyName"],
+                "GSTNumber": dict_ocr_obs["GSTNumber"],
+                "email": dict_ocr_obs["email"],
+                "PhoneNumber": dict_ocr_obs["PhoneNumber"],
+                "InvoiceNumber": dict_ocr_obs["InvoiceNumber"],
+                "currency": dict_ocr_obs["currency"]
+            }
         }
 
     return jsonify(response) # send to app
+#     return jsonify({
+#     "output": {
+#         "CompanyName": "tan chay yee \nSOON HUAT MACHINERY ENTERPRISE ",
+#         "GSTNumber": "002116837376 \f ",
+#         "InvoiceNumber": "Cs00004040",
+#         "PhoneNumber": "07-5547360 ",
+#         "currency": "",
+#         "date": "11/01/2019",
+#         "email": "SOONHUAT2000@HOTMAIL.COM",
+#         "time": "09:44:00",
+#         "total": "327.0"
+#     }
+# })
 
 
 def copyStateDict(state_dict):

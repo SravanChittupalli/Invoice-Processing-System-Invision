@@ -315,10 +315,11 @@ def get_observations(image, net):
         for extract in extracted_text.split('\n'):
             line = line+extract+' '
         text_in_img = text_in_img+line+'\n'
-    print("reached stage 3")
         # cv2.imshow('line_img', img)
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
+    print("reached stage 3")
+    
 
     print(text_in_img)
 
@@ -342,6 +343,6 @@ def get_observations(image, net):
 
 
 if __name__ == '__main__':
-    image_path = '/home/sravanchittupalli/konnoha/clones/Invoice-Processing-System/CRAFT-pytorch/assets/X51005441402.jpg'
+    image_path = '/home/sravanchittupalli/konnoha/clones/Invoice-Processing-System/Flask_app/CRAFT_pytorch/assets/X00016469672.jpg'
     image = cv2.imread(image_path)
     get_observations(image)
