@@ -35,26 +35,25 @@ def get_date(extracted_text):
     date_pattern = r'(0[1-9]|[12][0-9]|3[01]|0[1-9]|1[012])[-./](0[1-9]|[12][0-9]|3[01]|0[1-9]|1[012])[-./](20[012][0-9]|[0-3][0-9])'
     pattern = re.compile(date_pattern)
     matches = pattern.finditer(extracted_text)
-    date = None
+    date = ''
     for match in matches:
         date = extracted_text[match.span()[0]:match.span()[1]]
     receipt_ocr['date'] = date
-    print(receipt_ocr)
+    # print(receipt_ocr)
 
 def get_time(extracted_text):
 # regex for time. The pattern in the receipt is in 8:47:20 
-    time_pattern = r'([0-9]|0[0-9]|[1][0-9]|2[0-4])[:]([0-5][0-9])[:]([0-5][0-9])*'
+    time_pattern = r'([0-9]|0[0-9]|[1][0-9]|2[0-4])*[:]*([0-5][0-9])[:]([0-5][0-9])*'
     pattern = re.compile(time_pattern)
     matches = pattern.finditer(extracted_text)
-    time = None
+    time = ''
     for match in matches:
         time = extracted_text[match.span()[0]:match.span()[1]]
     receipt_ocr['time'] = time
-    print(receipt_ocr)
+    # print(receipt_ocr)
 
 def get_total(extracted_text):
-    total_pattern = r'[tTiI][oOaA][tTlLiL][oOaA0cC]'
-    # total_pattern = r'Total'
+    total_pattern = r'([tTiI][oOaA][tTlLiL][oOaA0cC]|([NnMm][Ee][TtLliI]))'
     splits = extracted_text.split('\n')
     lines_with_total = []
     for line in splits:
@@ -72,14 +71,15 @@ def get_total(extracted_text):
         receipt_ocr['total'] = str(max(amount))
     except:
         receipt_ocr['total'] = None
-    print(receipt_ocr)
+    # print(receipt_ocr)
 
 def get_company_name(extracted_text):
     splits = extracted_text.splitlines()
     i = 0
-    pattern = r'([0-9]+|[-./]+|\\)'
+    pattern = r'([0-9]+|[-./|]+|\\)'
 
     for split in splits:
+        # print(split)
         if split==' ':
             # print(split)
             i+=1
@@ -91,13 +91,13 @@ def get_company_name(extracted_text):
             break
     try:
         restaurant_name = splits[i] + '\n' + splits[i+2]
-        receipt_ocr['Comapny Name'] = restaurant_name
+        receipt_ocr['CompanyName'] = restaurant_name
     except:
-        receipt_ocr['Comapny Name'] = None
-    print(receipt_ocr)
+        receipt_ocr['CompanyName'] = ''
+    # print(receipt_ocr)
 
 def get_GST_number(extracted_text):
-    pattern = r'(GST)'
+    pattern = r'(GST|3ST)'
     splits = extracted_text.split('\n')
     lines_with_GST = []
     for line in splits:
@@ -105,7 +105,7 @@ def get_GST_number(extracted_text):
             lines_with_GST.append(line)
 
     gst_num = ''
-    gst_num_pattern = r'[0-9]{3,15}\s*[0-9]*\s*[0-9]*'
+    gst_num_pattern = r'[0-9]{2,15}\s*[a-zA-Z]*[0-9]*[a-zA-Z]*[0-9]*\s*[0-9]*'
     pattern = re.compile(gst_num_pattern)
     for line in lines_with_GST:
         matches = pattern.finditer(line)
@@ -114,18 +114,18 @@ def get_GST_number(extracted_text):
             if len(gst_num_curr) > len(gst_num):
                 gst_num = gst_num_curr
 
-    receipt_ocr['GST Number'] = gst_num
-    print(receipt_ocr)
+    receipt_ocr['GSTNumber'] = gst_num
+    # print(receipt_ocr)
 
 def get_email(extracted_text):
     pattern = (r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+')
     pattern = re.compile(pattern)
     matches = pattern.finditer(extracted_text)
-    email = None
+    email = ''
     for match in matches:
         email = extracted_text[match.span()[0]:match.span()[1]]
     receipt_ocr['email'] = email
-    print(receipt_ocr)
+    # print(receipt_ocr)
 
 
 def get_phone_number(extracted_text):
@@ -145,8 +145,8 @@ def get_phone_number(extracted_text):
         for match in matches:
             phone_num.append(line[match.span()[0]:match.span()[1]])
 
-    receipt_ocr['Phone Number'] = phone_num
-    print(receipt_ocr)
+    receipt_ocr['PhoneNumber'] = phone_num
+    # print(receipt_ocr)
 
 def get_invoice_number(extracted_text):
     pattern = (r'(invoice|bill|inv|inc|doc|document|order|ord|receipt|billing|token|trn|transaction|trx|tally|statement)')
@@ -157,32 +157,35 @@ def get_invoice_number(extracted_text):
             lines_with_invoice_num.append(line)
 
     invoice_num = []
-    final_invoice = None
     invoice_num_pattern = r'[a-zA-Z]*[0-9]+[/:-]*[0-9]*[/:-]*[0-9]*'
     pattern = re.compile(invoice_num_pattern)
     for line in lines_with_invoice_num:
         matches = pattern.finditer(line)
         for match in matches:
             invoice_num.append(line[match.span()[0]:match.span()[1]])
+    print(invoice_num)
 
+    final_invoice = ''
     for invoice in invoice_num:
         if '/' not in invoice and ':' not in invoice and ' ' not in invoice:
-            final_invoice = invoice
+            final_invoice_curr = invoice
+            if len(final_invoice_curr) > len(final_invoice):
+                final_invoice = final_invoice_curr
+    if final_invoice == '':
+        final_invoice = None
 
-    receipt_ocr['Invoice Number'] = final_invoice
-    print(receipt_ocr)
+    receipt_ocr['InvoiceNumber'] = final_invoice
+    # print(receipt_ocr)
 
+def get_currency(extracted_text):
+    pattern = r'(RM|USD|EUR|JPY|GBP|AUD|CAD|CHF|CNY|SEK|NZD|INR|RS)'
+    pattern = re.compile(pattern)
+    matches = pattern.finditer(extracted_text)
 
-def copyStateDict(state_dict):
-    if list(state_dict.keys())[0].startswith("module"):
-        start_idx = 1
-    else:
-        start_idx = 0
-    new_state_dict = OrderedDict()
-    for k, v in state_dict.items():
-        name = ".".join(k.split(".")[start_idx:])
-        new_state_dict[name] = v
-    return new_state_dict
+    currency = ''
+    for match in matches:
+        currency = extracted_text[match.span()[0]:match.span()[1]]
+    receipt_ocr['currency'] = currency
 
 def str2bool(v):
     return v.lower() in ("yes", "y", "true", "t", "1")
@@ -258,30 +261,16 @@ def test_net(net, image, text_threshold, link_threshold, low_text, cuda, poly, r
 
     return boxes, polys, ret_score_text
 
-def get_observations(image):
-    # load net
-    net = CRAFT()     # initialize
+def get_observations(image, net):
+    global receipt_ocr
+    receipt_ocr = {}
     refine_net = None
-
-    print('Loading weights from checkpoint (' + args.trained_model + ')')
-    if args.cuda:
-        net.load_state_dict(copyStateDict(torch.load(args.trained_model)))
-    else:
-        net.load_state_dict(copyStateDict(torch.load(args.trained_model, map_location='cpu')))
-
-    if args.cuda:
-        net = net.cuda()
-        net = torch.nn.DataParallel(net)
-        cudnn.benchmark = False
-
-    net.eval()
-
     t = time.time()
 
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
+    #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    print("reached stage 0")
     bboxes, polys, score_text = test_net(net, image, args.text_threshold, args.link_threshold, args.low_text, args.cuda, args.poly, refine_net)
-
+    print("reached stage 1")
     # print(bboxes, polys)
     print(image.shape)
     ###############################
@@ -312,6 +301,7 @@ def get_observations(image):
             min_line = 100000
             max_line = 0
     print(len(lines))
+    print("reached stage 2")
 
     text_in_img = ''
     image_line = image.copy()
@@ -328,6 +318,8 @@ def get_observations(image):
         # cv2.imshow('line_img', img)
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
+    print("reached stage 3")
+    
 
     print(text_in_img)
 
@@ -339,24 +331,18 @@ def get_observations(image):
     get_email(text_in_img)
     get_phone_number(text_in_img)
     get_invoice_number(text_in_img)
-    cv2.imshow('line_img', image_line)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    get_currency(text_in_img)
+    print("reached stage 4")
+    # cv2.imshow('line_img', image_line)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
-        
-    ################################
-    # save score text
-    # filename, file_ext = os.path.splitext(os.path.basename(image_path))
-    # mask_file = result_folder + "/res_" + filename + '_mask.jpg'
-    # cv2.imwrite(mask_file, score_text)
-
-    # file_utils.saveResult(image_path, image[:,:,::-1], polys, dirname=result_folder)
 
     print("elapsed time : {}s".format(time.time() - t))
     return receipt_ocr
 
 
 if __name__ == '__main__':
-    image_path = '/home/sravanchittupalli/konnoha/clones/Invoice-Processing-System/CRAFT-pytorch/assets/X51005441402.jpg'
+    image_path = '/home/sravanchittupalli/konnoha/clones/Invoice-Processing-System/Flask_app/CRAFT_pytorch/assets/X00016469672.jpg'
     image = cv2.imread(image_path)
     get_observations(image)
