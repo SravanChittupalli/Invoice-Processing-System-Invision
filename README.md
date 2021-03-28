@@ -3,35 +3,31 @@
 
 
 <!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
 
 
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/SravanChittupalli/Invoice-Processing-System">
+    <img src="assets/invision_logo.jpeg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">InvoiceXvision:Invision</h3>
 
   <p align="center">
-    An Invoice processing system to extract useful information from invoice to keep track of payments
+    An Invoice processing app to extract useful information from your invoice
     <br />
     <br />
     <br />
     <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/SravanChittupalli/Invoice-Processing-System">Report Bug</a>
   </p>
 </p>
 
@@ -72,7 +68,7 @@ One major problem in the finance world is that invoice formats are not standard 
 
 Tasks performed :
 * Upload invoices in PDF/scanned images  
-* ML modelextracts required information 
+* ML model extracts required information 
 * Information is exported into JSON format
 
 ### Built With
@@ -150,16 +146,16 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/SravanChittupalli/Invoice-Processing-System.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[forks-shield]: https://img.shields.io/github/forks/SravanChittupalli/Invoice-Processing-System.svg?style=for-the-badge
+[forks-url]: https://github.com/SravanChittupalli/Invoice-Processing-System/network/members
+[stars-shield]: https://img.shields.io/github/stars/SravanChittupalli/Invoice-Processing-System.svg?style=for-the-badge
+[stars-url]: https://github.com/SravanChittupalli/Invoice-Processing-System/stargazers
+[issues-shield]: https://img.shields.io/github/issues/SravanChittupalli/Invoice-Processing-System.svg?style=for-the-badge
+[issues-url]: https://github.com/SravanChittupalli/Invoice-Processing-System/issues
+[license-shield]: https://img.shields.io/github/license/SravanChittupalli/Invoice-Processing-System.svg?style=for-the-badge
+[license-url]: https://github.com/SravanChittupalli/Invoice-Processing-System/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
 [product-screenshot]: images/screenshot.png
